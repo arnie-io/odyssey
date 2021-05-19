@@ -27,8 +27,8 @@
   },
   "scripts": {
     "start": "start-storybook -p 6006",
-    "snapshot": "build-storybook && percy-storybook --widths=320,1280",
+    "snapshot": "yarn build && percy-storybook --widths=320,1280 --build_dir=dist",
     "lint": "eslint .",
-    "build-storybook": "build-storybook"
+    "build": "build-storybook -o ./dist"
   }
 }
