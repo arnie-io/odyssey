@@ -20,7 +20,9 @@ export default {
 const Template = ({ variant, onClick }) => (
   <>
     <Button onClick={onClick} variant={variant}>Default</Button>
-    <Button onClick={onClick} variant={variant} className="is-ods-button-focus">Focus</Button>
+    <div style={{ width: "200px", display: "inline-block", padding: "20px" }}>
+      <Button onClick={onClick} variant={variant} className="is-ods-button-focus" wide>Focus</Button>
+    </div>
     <Button onClick={onClick} variant={variant} className="is-ods-button-hover">Hover</Button>
     <Button onClick={onClick} variant={variant} disabled>Disabled</Button>
   </>
