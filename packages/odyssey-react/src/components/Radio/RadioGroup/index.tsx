@@ -10,18 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { forwardRef } from "react";
-import type { ChangeEvent, ReactElement, ComponentPropsWithRef } from "react";
-import { RadioGroupProvider } from "../context";
-import { useOmit } from "../../../utils";
-
-import styles from "../RadioGroup.module.scss";
-
-export interface Props
-  extends Omit<
-    ComponentPropsWithRef<"fieldset">,
-    "onChange" | "style" | "className"
-  > {
+import { forwardRef } from 'react';
+import type {
+  ChangeEvent,
+  ReactElement,
+  ComponentPropsWithRef
+} from 'react';
+import { RadioGroupProvider } from '../context';
+import { useOid } from '../../../utils';
+import Field from '../../Field';
+import type { SharedFieldTypes } from '../../Field';
+interface Props extends SharedFieldTypes, Omit<
+  ComponentPropsWithRef<'fieldset'>,
+  'onChange' | 'style' | 'className'
+> {
   /**
    * One or more Radio.Button to be used together as a group
    */
@@ -31,11 +33,6 @@ export interface Props
    * The form field hint
    */
   hint?: string;
-
-  /**
-   * The form field legend
-   */
-  legend: string;
 
   /**
    * The underlying input element name attribute for the group
@@ -73,21 +70,30 @@ export interface Props
  */
 const RadioGroup = forwardRef<HTMLFieldSetElement, Props>((props, ref) => {
   const {
-    hint,
     children,
     disabled = false,
-    legend,
+    id,
     name,
     onChange,
     required = true,
     value,
-    ...rest
+    error,
+    hint,
+    label,
+    optionalLabel
   } = props;
 
-  const legendElement = <legend className={styles.legend} children={legend} />;
+  const oid = useOid(id);
 
-  const inputElements = (
-    <div className={styles.fieldsetFlex}>
+  return (
+    <Field
+      error={error}
+      hint={hint}
+      inputId={oid}
+      label={label}
+      optionalLabel={optionalLabel}
+      required={required}
+    >
       <RadioGroupProvider
         value={{
           disabled,
@@ -98,19 +104,7 @@ const RadioGroup = forwardRef<HTMLFieldSetElement, Props>((props, ref) => {
         }}
         children={children}
       />
-    </div>
-  );
-
-  const hintElement = <aside className={styles.hint} children={hint} />;
-
-  const omitProps = useOmit(rest);
-
-  return (
-    <fieldset className={styles.fieldset} ref={ref} {...omitProps}>
-      {legendElement}
-      {inputElements}
-      {hint && hintElement}
-    </fieldset>
+    </Field>
   );
 });
 
