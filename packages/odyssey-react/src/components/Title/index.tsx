@@ -14,6 +14,7 @@ import type {
   ComponentPropsWithoutRef,
   FunctionComponent,
   ReactText,
+  ReactNode,
 } from "react";
 import { useCx, useOmit } from "../../utils";
 import styles from "./Title.module.scss";
@@ -36,7 +37,7 @@ export interface Props
   /**
    * The human readable section title to be visually displayed
    */
-  children: ReactText;
+  children: ReactText | ReactNode;
 
   /**
    * Remove default block end margin
