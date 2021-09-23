@@ -10,29 +10,22 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { forwardRef } from 'react';
-import type {
-  ChangeEvent,
-  ReactElement,
-  ComponentPropsWithRef
-} from 'react';
-import { RadioGroupProvider } from '../context';
-import { useOid } from '../../../utils';
-import Field from '../../Field';
-import type { SharedFieldTypes } from '../../Field';
-interface Props extends SharedFieldTypes, Omit<
-  ComponentPropsWithRef<'fieldset'>,
-  'onChange' | 'style' | 'className'
-> {
+import { forwardRef } from "react";
+import type { ChangeEvent, ReactElement, ComponentPropsWithRef } from "react";
+import { RadioGroupProvider } from "../context";
+import { useOid } from "../../../utils";
+import Field from "../../Field";
+import type { SharedFieldTypes } from "../../Field";
+interface Props
+  extends SharedFieldTypes,
+    Omit<
+      ComponentPropsWithRef<"fieldset">,
+      "onChange" | "style" | "className"
+    > {
   /**
    * One or more Radio.Button to be used together as a group
    */
   children: ReactElement | ReactElement[];
-
-  /**
-   * The form field hint
-   */
-  hint?: string;
 
   /**
    * The underlying input element name attribute for the group
@@ -80,7 +73,7 @@ const RadioGroup = forwardRef<HTMLFieldSetElement, Props>((props, ref) => {
     error,
     hint,
     label,
-    optionalLabel
+    optionalLabel,
   } = props;
 
   const oid = useOid(id);
@@ -93,6 +86,7 @@ const RadioGroup = forwardRef<HTMLFieldSetElement, Props>((props, ref) => {
       label={label}
       optionalLabel={optionalLabel}
       required={required}
+      as="fieldset"
     >
       <RadioGroupProvider
         value={{

@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { forwardRef } from 'react';
-import type { ComponentPropsWithRef } from 'react';
-import { useRadioGroup } from '../context';
-import { useOid, useOmit, useCx } from '../../../utils';
+import { forwardRef } from "react";
+import type { ComponentPropsWithRef } from "react";
+import { useRadioGroup } from "../context";
+import { useOid, useOmit, useCx } from "../../../utils";
 
 import styles from "../RadioButton.module.scss";
 
@@ -40,14 +40,7 @@ export interface Props
  * the user to choose only one option at a time.
  */
 const RadioButton = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const {
-    id,
-    label,
-    value,
-    hint,
-    error,
-    ...rest
-  } = props;
+  const { id, label, value, hint, error, ...rest } = props;
 
   const {
     value: controlledValue,
@@ -63,10 +56,7 @@ const RadioButton = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
   const checked = value === controlledValue;
 
-  const ariaDescribedBy = useCx(
-    hint && `${oid}-hint`,
-    error && `${oid}-error`
-  )
+  const ariaDescribedBy = useCx(hint && `${oid}-hint`, error && `${oid}-error`);
 
   return (
     <>
