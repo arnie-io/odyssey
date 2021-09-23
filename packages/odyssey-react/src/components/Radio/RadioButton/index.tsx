@@ -16,9 +16,11 @@ import { useRadioGroup } from "../context";
 import { useOid, useOmit, useCx } from "../../../utils";
 
 import styles from "../RadioButton.module.scss";
+import type { SharedFieldTypes } from "../../Field";
 
 export interface Props
-  extends Omit<ComponentPropsWithRef<"input">, "style" | "className"> {
+  extends Pick<SharedFieldTypes, "hint" | "error">,
+    Omit<ComponentPropsWithRef<"input">, "style" | "className"> {
   /**
    * The underlying input element id attribute. Automatically generated if not provided
    */
