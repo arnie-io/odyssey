@@ -10,18 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { forwardRef } from "react";
-import type { ChangeEvent, ReactElement, ComponentPropsWithRef } from "react";
+import type { ChangeEvent, FunctionComponent, ReactElement } from "react";
 import { RadioGroupProvider } from "../context";
 import { useOid } from "../../../utils";
 import Field from "../../Field";
 import type { SharedFieldTypes } from "../../Field";
-interface Props
-  extends SharedFieldTypes,
-    Omit<
-      ComponentPropsWithRef<"fieldset">,
-      "onChange" | "style" | "className"
-    > {
+
+interface Props extends SharedFieldTypes {
   /**
    * One or more Radio.Button to be used together as a group
    */
@@ -31,6 +26,11 @@ interface Props
    * The underlying input element name attribute for the group
    */
   name: string;
+
+  /**
+   * The underlying RadioGroup id
+   */
+  id?: string;
 
   /**
    * The underlying input element required attribute for the group
@@ -61,12 +61,12 @@ interface Props
  * Radios appear as a ring shaped UI accompanied by a caption that allows
  * the user to choose only one option at a time.
  */
-const RadioGroup = forwardRef<HTMLFieldSetElement, Props>((props, ref) => {
+const RadioGroup: FunctionComponent<Props> = (props) => {
   const {
     children,
     disabled = false,
-    id,
     name,
+    id,
     onChange,
     required = true,
     value,
@@ -76,13 +76,13 @@ const RadioGroup = forwardRef<HTMLFieldSetElement, Props>((props, ref) => {
     optionalLabel,
   } = props;
 
-  const oid = useOid(id);
+  const groupid = useOid(id);
 
   return (
     <Field
       error={error}
       hint={hint}
-      inputId={oid}
+      inputId={ groupid }
       label={label}
       optionalLabel={optionalLabel}
       required={required}
@@ -93,13 +93,16 @@ const RadioGroup = forwardRef<HTMLFieldSetElement, Props>((props, ref) => {
           disabled,
           required,
           name,
+          groupid,
           onChange,
           value,
+          hint,
+          error
         }}
         children={children}
       />
     </Field>
   );
-});
+};
 
 export default RadioGroup;
