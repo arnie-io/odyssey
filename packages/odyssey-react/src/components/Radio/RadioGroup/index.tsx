@@ -82,7 +82,7 @@ const RadioGroup: FunctionComponent<Props> = (props) => {
     <Field
       error={error}
       hint={hint}
-      inputId={ groupid }
+      inputId={groupid}
       label={label}
       optionalLabel={optionalLabel}
       required={required}
@@ -97,7 +97,7 @@ const RadioGroup: FunctionComponent<Props> = (props) => {
           onChange,
           value,
           hint,
-          error
+          error,
         }}
         children={children}
       />

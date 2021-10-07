@@ -20,10 +20,11 @@ import Field from "../Field";
 import type { SharedFieldTypes } from "../Field";
 
 export interface Props
-  extends SharedFieldTypes, Omit<
-    ComponentPropsWithRef<"input">,
-    "onChange" | "style" | "className" | "type" | "children"
-  > {
+  extends SharedFieldTypes,
+    Omit<
+      ComponentPropsWithRef<"input">,
+      "onChange" | "style" | "className" | "type" | "children"
+    > {
   children?: never;
   /**
    * The form field label
