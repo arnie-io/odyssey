@@ -16,7 +16,7 @@ import { useOid } from "../../../utils";
 import Field from "../../Field";
 import type { SharedFieldTypes } from "../../Field";
 
-interface Props extends SharedFieldTypes {
+export interface Props extends SharedFieldTypes {
   /**
    * One or more Radio.Button to be used together as a group
    */
