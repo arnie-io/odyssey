@@ -15,16 +15,16 @@ import type { ChangeEvent, ReactElement, ComponentPropsWithRef } from "react";
 import SelectOption from "../SelectOption";
 import SelectOptionGroup from "../SelectOptionGroup";
 import useChoices from "./useChoices";
-import { forwardRefWithStatics, useCx, useOid, useOmit } from "../../../utils";
+import { forwardRefWithStatics, useOid, useOmit } from "../../../utils";
+import Field from "../../Field";
+import type { SharedFieldTypes } from "../../Field";
 
 import styles from "../Select.module.scss";
 import CaretDownIcon from "../../Icon/CaretDown";
 
 export interface Props
-  extends Omit<
-    ComponentPropsWithRef<"select">,
-    "onChange" | "style" | "className"
-  > {
+  extends SharedFieldTypes,
+    Omit<ComponentPropsWithRef<"select">, "onChange" | "style" | "className"> {
   /**
    * One or more options or option groups to be used together as a group
    */
@@ -72,15 +72,16 @@ const Select = forwardRefWithStatics<HTMLSelectElement, Props, Statics>(
   (props, ref) => {
     const {
       id,
-      hint,
       children,
       disabled = false,
-      label,
-      optionalLabel,
       name,
       onChange,
       required = true,
       value,
+      error,
+      hint,
+      label,
+      optionalLabel,
       ...rest
     } = props;
 
@@ -90,19 +91,6 @@ const Select = forwardRefWithStatics<HTMLSelectElement, Props, Statics>(
 
     useChoices(oid, value);
 
-    const isOptional = !required && optionalLabel ? true : null;
-
-    const labelClass = useCx(styles.label, disabled && styles.labelDisabled);
-
-    const labelElement = (
-      <label className={labelClass} htmlFor={oid}>
-        {label}
-        {isOptional && (
-          <span className={styles.optionalLabel} children={optionalLabel} />
-        )}
-      </label>
-    );
-
     const handleChange = useCallback(
       (event: ChangeEvent<HTMLSelectElement>) => {
         onChange?.(event, event.target.value);
@@ -110,29 +98,38 @@ const Select = forwardRefWithStatics<HTMLSelectElement, Props, Statics>(
       [onChange]
     );
 
-    const selectElement = (
-      <div className={styles.outer}>
-        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-        <select
-          {...omitProps}
-          id={oid}
-          name={name}
-          disabled={disabled}
-          required={required}
-          onChange={handleChange}
-          value={value}
-          ref={ref}
-        >
-          {children}
-        </select>
-        <span className={styles.indicator} role="presentation">
-          <CaretDownIcon />
-        </span>
-      </div>
-    </Field>
-  );
-  /* eslint-enable jsx-a11y/no-onchange */
-});
+    return (
+      <Field
+        error={error}
+        hint={hint}
+        inputId={oid}
+        label={label}
+        optionalLabel={optionalLabel}
+        required={required}
+      >
+        <div className={styles.outer}>
+          {/* eslint-disable-next-line jsx-a11y/no-onchange */}
+          <select
+            {...omitProps}
+            id={oid}
+            name={name}
+            disabled={disabled}
+            required={required}
+            onChange={handleChange}
+            value={value}
+            ref={ref}
+          >
+            {children}
+          </select>
+          <span className={styles.indicator} role="presentation">
+            <CaretDownIcon />
+          </span>
+        </div>
+      </Field>
+    );
+    /* eslint-enable jsx-a11y/no-onchange */
+  }
+);
 
 export interface Statics {
   Option: typeof SelectOption;
